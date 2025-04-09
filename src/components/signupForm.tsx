@@ -10,12 +10,13 @@ import image from "../assets/image1.jpg"
 
 export function SignupForm({ className, ...props }: React.ComponentProps<"div">) {
     const [username, setUsername] = useState("")
+    const [password, setPassword] = useState("")
     const signup = useUserStore((s) => s.signup)
     const navigate = useNavigate()
 
     const handleSignup = (e: React.FormEvent) => {
         e.preventDefault()
-        if (signup(username)) {
+        if (signup(username, password)) {
             alert("Signup successful!")
             navigate("/")
         } else {
@@ -39,9 +40,20 @@ export function SignupForm({ className, ...props }: React.ComponentProps<"div">)
                                 <Label htmlFor="username">Username</Label>
                                 <Input
                                     id="username"
-                                    placeholder="e.g. foodie123"
+                                    placeholder="e.g. johndoe"
                                     value={username}
                                     onChange={(e) => setUsername(e.target.value)}
+                                    required
+                                />
+                            </div>
+                            <div className="grid gap-2">
+                                <Label htmlFor="password">Password</Label>
+                                <Input
+                                    type="password"
+                                    id="password"
+                                    placeholder="••••••••"
+                                    value={password}
+                                    onChange={(e) => setPassword(e.target.value)}
                                     required
                                 />
                             </div>
@@ -56,11 +68,11 @@ export function SignupForm({ className, ...props }: React.ComponentProps<"div">)
                             </div>
                         </div>
                     </form>
-                    <div className="relative hidden bg-muted md:block">
+                    <div className="relative hidden md:block">
                         <img
                             src={image}
-                            alt="Signup Illustration"
-                            className="absolute inset-0 h-full w-full object-cover"
+                            alt="image"
+                            className="absolute inset-0 h-full w-full object-cover pr-5"
                         />
                     </div>
                 </CardContent>

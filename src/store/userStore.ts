@@ -1,17 +1,17 @@
-// src/store/userStore.ts
 import { create } from "zustand";
 
 type User = {
     id: string;
     username: string;
+    password: string;
     savedRecipes: string[];
 };
 
 type UserStore = {
-    user: User | null;
+    user: Omit<User, "password"> | null;
     users: User[];
-    login: (username: string) => boolean;
-    signup: (username: string) => boolean;
+    login: (username: string, password: string) => boolean;
+    signup: (username: string, password: string) => boolean;
     logout: () => void;
     saveRecipe: (recipeId: string) => void;
     unsaveRecipe: (recipeId: string) => void;
@@ -23,30 +23,40 @@ const getLocalUsers = (): User[] =>
 const setLocalUsers = (users: User[]) =>
     localStorage.setItem("users", JSON.stringify(users));
 
-const getCurrentUser = (): User | null =>
+const getCurrentUser = (): Omit<User, "password"> | null =>
     JSON.parse(localStorage.getItem("currentUser") || "null");
 
 export const useUserStore = create<UserStore>((set, get) => ({
     user: getCurrentUser(),
     users: getLocalUsers(),
 
-    login: (username) => {
-        const user = get().users.find((u) => u.username === username);
+    login: (username, password) => {
+        const user = get().users.find(
+            (u) => u.username === username && u.password === password
+        );
         if (!user) return false;
-        localStorage.setItem("currentUser", JSON.stringify(user));
-        set({ user });
+        const { password: _pw, ...safeUser } = user;
+        localStorage.setItem("currentUser", JSON.stringify(safeUser));
+        set({ user: safeUser });
         return true;
     },
 
-    signup: (username) => {
+    signup: (username, password) => {
         const users = get().users;
         if (users.find((u) => u.username === username)) return false;
 
-        const newUser = { id: crypto.randomUUID(), username, savedRecipes: [] };
+        const newUser: User = {
+            id: crypto.randomUUID(),
+            username,
+            password,
+            savedRecipes: [],
+        };
         const updatedUsers = [...users, newUser];
         setLocalUsers(updatedUsers);
-        localStorage.setItem("currentUser", JSON.stringify(newUser));
-        set({ users: updatedUsers, user: newUser });
+
+        const { password: _pw, ...safeUser } = newUser;
+        localStorage.setItem("currentUser", JSON.stringify(safeUser));
+        set({ users: updatedUsers, user: safeUser });
         return true;
     },
 

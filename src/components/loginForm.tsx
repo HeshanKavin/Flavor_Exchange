@@ -10,19 +10,20 @@ import image from "../assets/image1.jpg";
 
 export function LoginForm({ className, ...props }: React.ComponentProps<"div">) {
     const [username, setUsername] = useState("");
+    const [password, setPassword] = useState("");
     const login = useUserStore((s) => s.login);
     const navigate = useNavigate();
 
     const handleSubmit = useCallback((e: React.FormEvent) => {
         e.preventDefault();
         const trimmedUsername = username.trim();
-        if (login(trimmedUsername)) {
+        if (login(trimmedUsername, password)) {
             alert("Login successful!");
             navigate("/");
         } else {
-            alert("Invalid username");
+            alert("Invalid username or password");
         }
-    }, [username, login, navigate]);
+    }, [username, password, login, navigate]);
 
     return (
         <div className={cn("flex flex-col", className)} {...props}>
@@ -32,7 +33,7 @@ export function LoginForm({ className, ...props }: React.ComponentProps<"div">) 
                         <div className="flex flex-col gap-6">
                             <div className="flex flex-col items-center text-center">
                                 <h1 className="text-2xl font-bold">Welcome back</h1>
-                                <p className="text-muted-foreground">Login to your recipe account</p>
+                                <p className="text-balance text-muted-foreground">Login to your recipe account</p>
                             </div>
 
                             <div className="grid gap-2">
@@ -43,7 +44,18 @@ export function LoginForm({ className, ...props }: React.ComponentProps<"div">) 
                                     value={username}
                                     onChange={(e) => setUsername(e.target.value)}
                                     autoComplete="username"
-                                    aria-label="Username"
+                                    required
+                                />
+                            </div>
+                            <div className="grid gap-2">
+                                <Label htmlFor="password">Password</Label>
+                                <Input
+                                    type="password"
+                                    id="password"
+                                    placeholder="••••••••"
+                                    value={password}
+                                    onChange={(e) => setPassword(e.target.value)}
+                                    autoComplete="current-password"
                                     required
                                 />
                             </div>
@@ -61,11 +73,11 @@ export function LoginForm({ className, ...props }: React.ComponentProps<"div">) 
                         </div>
                     </form>
 
-                    <div className="relative hidden bg-muted md:block">
+                    <div className="relative hidden md:block">
                         <img
                             src={image}
-                            alt="Food and recipe themed background"
-                            className="absolute inset-0 h-full w-full object-cover "
+                            alt="image"
+                            className="absolute inset-0 h-full w-full object-cover pr-5 "
                         />
                     </div>
                 </CardContent>
