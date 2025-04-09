@@ -4,16 +4,17 @@ import { useParams, useNavigate } from "react-router-dom";
 import { useRecipeStore } from "../store/recipeStore";
 import { useUserStore } from "../store/userStore";
 import { Button } from "../components/ui/button";
-import { useEffect } from "react";
-import {
-    SocialShare
+import { useEffect, useState } from "react";
+import { SocialShare } from "../components/socialShare";
+import Timer from "../components/timer";
+import Modal from "../components/model";
 
-} from "../components/socialShare";
 export const RecipeDetails = () => {
     const { id } = useParams();
-    const navigate = useNavigate();
     const { recipes, fetchRecipes, deleteRecipe } = useRecipeStore();
     const { user, saveRecipe, unsaveRecipe } = useUserStore();
+
+    const navigate = useNavigate();
 
     useEffect(() => {
         fetchRecipes();
@@ -40,6 +41,10 @@ export const RecipeDetails = () => {
             navigate("/");
         }
     };
+    const [isModalOpen, setIsModalOpen] = useState(false);
+
+    const openTimerModal = () => setIsModalOpen(true);
+    const closeTimerModal = () => setIsModalOpen(false);
 
     return (
         <div className="p-6 max-w-3xl mx-auto">
@@ -49,8 +54,17 @@ export const RecipeDetails = () => {
                 className="w-full h-60 object-cover rounded-xl mb-4"
             />
             <h1 className="text-3xl font-bold mb-2">{recipe.title}</h1>
-            <p className="text-sm text-gray-600">Cooking Time: {recipe.cookingTime}</p>
-            <p className="text-sm text-yellow-500">⭐ {recipe.rating}</p>
+            <p className="text-sm mb-2">Cooking Time: {recipe.cookingTime}</p>
+            {user && (
+                <Button
+                    onClick={openTimerModal}
+                    variant="destructive"
+                    className=" mb-2"
+                >
+                    Start Timer
+                </Button>
+            )}
+            <p className="text-sm">⭐ {recipe.rating}</p>
 
             <h2 className="text-xl font-semibold mt-6 mb-2">Ingredients</h2>
             <ul className="list-disc list-inside">
@@ -60,7 +74,7 @@ export const RecipeDetails = () => {
             </ul>
 
             <h2 className="text-xl font-semibold mt-6 mb-2">Instructions</h2>
-            <pre className="bg-gray-100 p-4 rounded-md whitespace-pre-wrap">{recipe.instructions}</pre>
+            <pre className="p-4 rounded-md whitespace-pre-wrap">{recipe.instructions}</pre>
 
             <div className="flex gap-4 mt-6">
                 <Button onClick={handleSaveToggle} className={isSaved ? "bg-red-500" : ""}>
@@ -78,6 +92,11 @@ export const RecipeDetails = () => {
                     </>
                 )}
             </div>
+
+            {/* Timer Modal */}
+            <Modal isOpen={isModalOpen} onClose={closeTimerModal}>
+                <Timer cookingTime={recipe.cookingTime} />
+            </Modal>
 
             {/* Social Share Component */}
             <SocialShare url={window.location.href} title={recipe.title} image={recipe.image} />
