@@ -6,6 +6,7 @@ import { useEffect, useState } from "react";
 import { SocialShare } from "../components/socialShare";
 import Timer from "../components/timer";
 import Modal from "../components/model";
+import { IngredientList } from "../components/IngredientList";
 
 export const RecipeDetails = () => {
     const { id } = useParams();
@@ -52,6 +53,21 @@ export const RecipeDetails = () => {
                 className="w-full h-60 object-cover rounded-xl mb-4"
             />
             <h1 className="text-3xl font-bold mb-2">{recipe.title}</h1>
+
+            {/* Dietary Restrictions */}
+            {recipe.dietary?.length > 0 && (
+                <div className="flex flex-wrap gap-1 mt-2">
+                    {recipe.dietary.map((item: string, index: number) => (
+                        <span
+                            key={item}
+                            className="font-bold py-0.5 rounded-full"
+                        >
+                            {item}
+                            {index < recipe.dietary.length - 1 && <span className="mx-1">|</span>}
+                        </span>
+                    ))}
+                </div>
+            )}
             <p className="text-sm mb-2">Cooking Time: {recipe.cookingTime}</p>
             {user && (
                 <Button
@@ -65,11 +81,8 @@ export const RecipeDetails = () => {
             <p className="text-sm">⭐ {recipe.rating}</p>
 
             <h2 className="text-xl font-semibold mt-6 mb-2">Ingredients</h2>
-            <ul className="list-disc list-inside">
-                {recipe.ingredients.map((item, i) => (
-                    <li key={i}>{item}</li>
-                ))}
-            </ul>
+
+            <IngredientList ingredients={recipe.ingredients} />
 
             <h2 className="text-xl font-semibold mt-6 mb-2">Instructions</h2>
             <pre className="p-4 rounded-md whitespace-pre-wrap">{recipe.instructions}</pre>

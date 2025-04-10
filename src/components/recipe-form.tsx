@@ -9,6 +9,14 @@ type RecipeFormProps = {
     onSubmitSuccess?: () => void;
 };
 
+const dietaryOptions = [
+    "gluten-free",
+    "vegan",
+    "vegetarian",
+    "paleo",
+    "keto",
+]
+
 export const RecipeForm: React.FC<RecipeFormProps> = ({ recipeId, onSubmitSuccess }) => {
     const { addRecipe, updateRecipe, recipes } = useRecipeStore();
     const { user } = useUserStore();
@@ -21,6 +29,15 @@ export const RecipeForm: React.FC<RecipeFormProps> = ({ recipeId, onSubmitSucces
     const [image, setImage] = useState(existing?.image || "");
     const [ingredients, setIngredients] = useState(existing?.ingredients.join(", ") || "");
     const [instructions, setInstructions] = useState(existing?.instructions || "");
+    const [dietary, setDietary] = useState<string[]>(existing?.dietary || []);
+
+    const toggleDietary = (option: string) => {
+        setDietary((prev) =>
+            prev.includes(option)
+                ? prev.filter((d) => d !== option)
+                : [...prev, option]
+        );
+    };
 
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
@@ -84,6 +101,22 @@ export const RecipeForm: React.FC<RecipeFormProps> = ({ recipeId, onSubmitSucces
                 onChange={(e) => setInstructions(e.target.value)}
                 className="w-full h-40 border rounded p-2"
             />
+            {/* Dietary selection */}
+            <div className="space-y-2">
+                <label className="font-medium">Dietary Restrictions:</label>
+                <div className="flex flex-wrap gap-4">
+                    {dietaryOptions.map((option) => (
+                        <label key={option} className="flex items-center space-x-2">
+                            <input
+                                type="checkbox"
+                                checked={dietary.includes(option)}
+                                onChange={() => toggleDietary(option)}
+                            />
+                            <span>{option}</span>
+                        </label>
+                    ))}
+                </div>
+            </div>
             <Button type="submit">{recipeId ? "Update Recipe" : "Add Recipe"}</Button>
         </form>
     );
