@@ -1,5 +1,3 @@
-// RecipeDetails.tsx
-
 import { useParams, useNavigate } from "react-router-dom";
 import { useRecipeStore } from "../store/recipeStore";
 import { useUserStore } from "../store/userStore";

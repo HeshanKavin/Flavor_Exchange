@@ -1,6 +1,6 @@
 import { cn } from "../lib/utils";
 import { Card, CardContent } from "../components/ui/card";
-import aboutImage from "../assets/image1.jpg"; // Make sure the image exists
+import aboutImage from "../assets/image1.jpg";
 
 export function About({ className, ...props }: React.ComponentProps<"div">) {
     return (
@@ -9,7 +9,7 @@ export function About({ className, ...props }: React.ComponentProps<"div">) {
                 <img
                     src={aboutImage}
                     alt="Cooking together"
-                    className="h-64 w-full object-cover"
+                    className="h-100 w-full object-cover"
                 />
                 <CardContent className="p-6 md:p-8 space-y-6">
                     <h1 className="text-3xl font-bold text-center">About Us</h1>

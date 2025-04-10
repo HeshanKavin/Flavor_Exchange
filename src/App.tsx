@@ -12,6 +12,7 @@ import { Navbar } from "./components/navbar";
 import Favorites from "./pages/favorites";
 import { RecipeList } from "./pages/recipeList";
 import { About } from "./pages/about";
+import { Footer } from "./components/footer";
 
 
 export default function App() {
@@ -37,7 +38,7 @@ export default function App() {
               <Route path="/about" element={<About />} />
             </Routes>
           </div>
-
+          <Footer />
         </div>
       </Router>
     </ThemeProvider>
