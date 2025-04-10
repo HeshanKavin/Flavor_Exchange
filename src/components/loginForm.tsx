@@ -18,7 +18,7 @@ export function LoginForm({ className, ...props }: React.ComponentProps<"div">) 
         e.preventDefault();
         const trimmedUsername = username.trim();
         if (login(trimmedUsername, password)) {
-            alert("Login successful!");
+            // alert("Login successful!");
             navigate("/");
         } else {
             alert("Invalid username or password");

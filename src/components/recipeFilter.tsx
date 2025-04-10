@@ -34,7 +34,7 @@ export const RecipeFilter = ({ onSearchChange, onDietaryChange }: RecipeFilterPr
             <select
                 value={selectedDietary}
                 onChange={handleDietaryChange}
-                className="p-2 border rounded"
+                className="p-2 bg-accent border rounded"
             >
                 <option value="">All Diets</option>
                 <option value="vegan">Vegan</option>

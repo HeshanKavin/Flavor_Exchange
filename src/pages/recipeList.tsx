@@ -4,7 +4,7 @@ import { RecipeCard } from "../components/recipe-card";
 import { RecipeFilter } from "../components/recipeFilter"; // Importing the reusable filter
 
 export const RecipeList = () => {
-    const { recipes, fetchRecipes } = useRecipeStore();
+    const { recipes, fetchRecipes, loading, error } = useRecipeStore();
     const [search, setSearch] = useState("");
     const [dietaryRestriction, setDietaryRestriction] = useState("");
 
@@ -41,11 +41,24 @@ export const RecipeList = () => {
                 onDietaryChange={handleDietaryChange}
             />
 
-            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
-                {filteredRecipes.map((recipe) => (
-                    <RecipeCard key={recipe.id} recipe={recipe} />
-                ))}
-            </div>
+            {/* Loading State */}
+            {loading && <div className="text-center text-lg text-gray-500">Loading recipes...</div>}
+
+            {/* Error State */}
+            {error && <div className="text-center text-lg text-red-500">{error}</div>}
+
+            {/* Recipe List */}
+            {!loading && !error && (
+                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+                    {filteredRecipes.length > 0 ? (
+                        filteredRecipes.map((recipe) => (
+                            <RecipeCard key={recipe.id} recipe={recipe} />
+                        ))
+                    ) : (
+                        <div className="text-center text-lg text-gray-500">No recipes found</div>
+                    )}
+                </div>
+            )}
         </div>
     );
 };

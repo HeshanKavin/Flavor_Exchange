@@ -13,16 +13,20 @@ import Favorites from "./pages/favorites";
 import { RecipeList } from "./pages/recipeList";
 import { About } from "./pages/about";
 import { Footer } from "./components/footer";
+import { useUserStore } from "./store/userStore";
+import { ScrollToTop } from "./components/ScrollToTop";
 
 
 export default function App() {
+  const loadUser = useUserStore((state) => state.loadUser);
   useEffect(() => {
     seedRecipes();
-  }, []);
+  }, [loadUser]);
 
   return (
     <ThemeProvider defaultTheme="dark" storageKey="vite-ui-theme">
       <Router>
+        <ScrollToTop />
         <div className="pt-15 min-h-screen flex flex-col bg-muted">
           <Navbar />
           <div className="flex-grow">

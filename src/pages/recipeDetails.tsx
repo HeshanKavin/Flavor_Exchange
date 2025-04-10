@@ -5,12 +5,12 @@ import { Button } from "../components/ui/button";
 import { useEffect, useState } from "react";
 import { SocialShare } from "../components/socialShare";
 import Timer from "../components/timer";
-import Modal from "../components/model";
+import Modal from "../components/modal";
 import { IngredientList } from "../components/IngredientList";
 
 export const RecipeDetails = () => {
     const { id } = useParams();
-    const { recipes, fetchRecipes, deleteRecipe } = useRecipeStore();
+    const { recipes, fetchRecipes, deleteRecipe, loading, error } = useRecipeStore();
     const { user, saveRecipe, unsaveRecipe } = useUserStore();
 
     const navigate = useNavigate();
@@ -20,7 +20,12 @@ export const RecipeDetails = () => {
     }, [fetchRecipes]);
 
     const recipe = recipes.find((r) => r.id.toString() === id);
-    if (!recipe) return <div className="p-6">Recipe not found.</div>;
+
+    if (loading) return <div className="p-6 text-center">Loading recipe...</div>;
+
+    if (error) return <div className="p-6 text-center text-red-500">{error}</div>;
+
+    if (!recipe) return <div className="p-6 text-center">Recipe not found.</div>;
 
     const isSaved = user?.savedRecipes.includes(recipe.id) ?? false;
     const isOwner = user?.id === recipe.userId;
@@ -40,16 +45,21 @@ export const RecipeDetails = () => {
             navigate("/");
         }
     };
+
     const [isModalOpen, setIsModalOpen] = useState(false);
 
     const openTimerModal = () => setIsModalOpen(true);
     const closeTimerModal = () => setIsModalOpen(false);
 
+    useEffect(() => {
+        return () => setIsModalOpen(false);
+    }, []);
+
     return (
         <div className="p-6 max-w-3xl mx-auto">
             <img
                 src={recipe.image}
-                alt={recipe.title}
+                alt={recipe.title || "Recipe image"}
                 className="w-full h-60 object-cover rounded-xl mb-4"
             />
             <h1 className="text-3xl font-bold mb-2">{recipe.title}</h1>
@@ -59,7 +69,7 @@ export const RecipeDetails = () => {
                 <div className="flex flex-wrap gap-1 mt-2">
                     {recipe.dietary.map((item: string, index: number) => (
                         <span
-                            key={item}
+                            key={`${item}-${index}`}
                             className="font-bold py-0.5 rounded-full"
                         >
                             {item}
@@ -110,7 +120,11 @@ export const RecipeDetails = () => {
             </Modal>
 
             {/* Social Share Component */}
-            <SocialShare url={window.location.href} title={recipe.title} image={recipe.image} />
+            <SocialShare
+                url={typeof window !== "undefined" ? window.location.href : ""}
+                title={recipe.title}
+                image={recipe.image}
+            />
         </div>
     );
 };
