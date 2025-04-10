@@ -21,10 +21,12 @@ export const RecipeList = () => {
     });
 
     const handleSearchChange = (query: string) => {
+        //console.log("Search Query:", query); // Debugging
         setSearch(query);
     };
 
     const handleDietaryChange = (dietary: string) => {
+        //console.log("Dietary Restriction:", dietary); // Debugging
         setDietaryRestriction(dietary);
     };
 

@@ -56,7 +56,7 @@ export const RecipeForm: React.FC<RecipeFormProps> = ({ recipeId, onSubmitSucces
             image,
             ingredients: ingredients.split(",").map((ing) => ing.trim()),
             instructions,
-            dietary: existing?.dietary || null, // Add dietary property
+            dietary,
         };
 
         if (recipeId) {

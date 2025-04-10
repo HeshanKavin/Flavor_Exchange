@@ -13,12 +13,14 @@ export const RecipeFilter = ({ onSearchChange, onDietaryChange }: RecipeFilterPr
     const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const query = e.target.value;
         setSearchQuery(query);
+        //console.log("Search Query:", query);
         onSearchChange(query);  // Pass the search query to the parent component
     };
 
     const handleDietaryChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
         const dietary = e.target.value;
         setSelectedDietary(dietary);
+        //console.log("Dietary Restriction:", dietary);
         onDietaryChange(dietary);  // Pass the dietary filter to the parent component
     };
 
