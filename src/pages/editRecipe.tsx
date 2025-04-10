@@ -1,6 +1,6 @@
 import { useNavigate, useParams } from "react-router-dom";
 import { RecipeForm } from "../components/recipe-form";
-import RecipeImage from "../assets/image1.jpg";
+import RecipeImage from "../assets/editrecipes.jpg";
 
 export const EditRecipe = () => {
     const { id } = useParams<{ id: string }>();

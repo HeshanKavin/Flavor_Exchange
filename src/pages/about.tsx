@@ -1,6 +1,6 @@
 import { cn } from "../lib/utils";
 import { Card, CardContent } from "../components/ui/card";
-import aboutImage from "../assets/image1.jpg";
+import aboutImage from "../assets/about.jpg";
 
 export function About({ className, ...props }: React.ComponentProps<"div">) {
     return (

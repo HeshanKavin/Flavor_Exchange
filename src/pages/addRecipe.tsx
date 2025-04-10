@@ -1,6 +1,6 @@
 import { useNavigate } from "react-router-dom";
 import { RecipeForm } from "../components/recipe-form";
-import RecipeImage from "../assets/image1.jpg";
+import RecipeImage from "../assets/addrecipes.jpg";
 
 export const AddRecipe = () => {
     const navigate = useNavigate();

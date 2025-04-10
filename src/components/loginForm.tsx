@@ -6,7 +6,7 @@ import { Button } from "../components/ui/button";
 import { Card, CardContent } from "../components/ui/card";
 import { Input } from "../components/ui/input";
 import { Label } from "../components/ui/label";
-import image from "../assets/image1.jpg";
+import image from "../assets/login.jpg";
 
 export function LoginForm({ className, ...props }: React.ComponentProps<"div">) {
     const [username, setUsername] = useState("");
