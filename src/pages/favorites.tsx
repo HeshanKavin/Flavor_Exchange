@@ -1,14 +1,16 @@
+import { useEffect, useState } from "react";
 import { useRecipeStore } from "../store/recipeStore";
 import { useUserStore } from "../store/userStore";
-import { useEffect, useState } from "react";
 import { RecipeCard } from "../components/recipe-card"; // Import the RecipeCard component
-import { Input } from "../components/ui/input";
+import { RecipeFilter } from "../components/recipeFilter"; // Importing the reusable filter
 import { Button } from "../components/ui/button";
+import favoriteRecipesImage from "../assets/image2.jpg"; // Import the image
 
 const Favorites = () => {
     const { recipes, fetchRecipes } = useRecipeStore();
     const { user, unsaveRecipe } = useUserStore();
-    const [searchQuery, setSearchQuery] = useState("");
+    const [search, setSearch] = useState("");
+    const [dietaryRestriction, setDietaryRestriction] = useState("");
 
     useEffect(() => {
         fetchRecipes();
@@ -21,22 +23,36 @@ const Favorites = () => {
     const favoriteRecipes = recipes.filter((r) => user.savedRecipes.includes(r.id));
 
     const filteredFavorites = favoriteRecipes.filter((recipe) => {
-        const query = searchQuery.toLowerCase();
-        return (
-            recipe.title.toLowerCase().includes(query) ||
-            recipe.ingredients.some((ing) => ing.toLowerCase().includes(query))
-        );
+        const isSearchMatch = recipe.title.toLowerCase().includes(search.toLowerCase()) ||
+            recipe.ingredients.some((ing) => ing.toLowerCase().includes(search.toLowerCase()));
+        const isDietaryMatch =
+            !dietaryRestriction || recipe.dietary.includes(dietaryRestriction);
+
+        return isSearchMatch && isDietaryMatch;
     });
+
+    const handleSearchChange = (query: string) => {
+        setSearch(query);
+    };
+
+    const handleDietaryChange = (dietary: string) => {
+        setDietaryRestriction(dietary);
+    };
 
     return (
         <div className="p-6">
-            <h1 className="text-2xl font-bold mb-4">Your Favorite Recipes</h1>
-
-            <Input
-                placeholder="Search by title or ingredient..."
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-                className="mb-6 max-w-md"
+            <div className="items-center text-center">
+                <img
+                    src={favoriteRecipesImage}
+                    alt="favoriteRecipesImage"
+                    className="mx-auto rounded-4xl w-full h-100 object-cover mb-4"
+                />
+                <h1 className="text-2xl font-bold mb-4">Your Favorite Recipes</h1>
+            </div>
+            {/* Reusable Filter Component */}
+            <RecipeFilter
+                onSearchChange={handleSearchChange}
+                onDietaryChange={handleDietaryChange}
             />
 
             <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">

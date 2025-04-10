@@ -1,4 +1,5 @@
 export interface Recipe {
+    dietary: any;
     id: string;
     title: string;
     image: string;

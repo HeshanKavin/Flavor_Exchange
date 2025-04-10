@@ -1,9 +1,8 @@
-import React, { useState, ChangeEvent } from "react";
+import React, { useState } from "react";
 import { Button } from "./ui/button";
 import { Input } from "./ui/input";
 import { useRecipeStore } from "../store/recipeStore";
 import { useUserStore } from "../store/userStore";
-import { v4 as uuidv4 } from "uuid";
 
 type RecipeFormProps = {
     recipeId?: string;
@@ -14,23 +13,14 @@ export const RecipeForm: React.FC<RecipeFormProps> = ({ recipeId, onSubmitSucces
     const { addRecipe, updateRecipe, recipes } = useRecipeStore();
     const { user } = useUserStore();
 
-    const existingRecipe = recipes.find((r) => r.id === recipeId);
-    const [formData, setFormData] = useState({
-        title: existingRecipe?.title || "",
-        cookingTime: existingRecipe?.cookingTime || "",
-        rating: existingRecipe?.rating.toString() || "",
-        image: existingRecipe?.image || "",
-        ingredients: existingRecipe?.ingredients.join(", ") || "",
-        instructions: existingRecipe?.instructions || "",
-    });
+    const existing = recipes.find((r) => r.id === recipeId);
 
-    const handleChange = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-        const { name, value } = e.target;
-        setFormData((prevData) => ({
-            ...prevData,
-            [name]: value,
-        }));
-    };
+    const [title, setTitle] = useState(existing?.title || "");
+    const [cookingTime, setCookingTime] = useState(existing?.cookingTime || "");
+    const [rating, setRating] = useState(existing?.rating.toString() || "");
+    const [image, setImage] = useState(existing?.image || "");
+    const [ingredients, setIngredients] = useState(existing?.ingredients.join(", ") || "");
+    const [instructions, setInstructions] = useState(existing?.instructions || "");
 
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
@@ -40,14 +30,8 @@ export const RecipeForm: React.FC<RecipeFormProps> = ({ recipeId, onSubmitSucces
             return;
         }
 
-        const { title, cookingTime, rating, image, ingredients, instructions } = formData;
-        if (!title || !cookingTime || !rating || !image || !ingredients || !instructions) {
-            alert("Please fill out all fields.");
-            return;
-        }
-
         const newRecipe = {
-            id: recipeId || uuidv4(),
+            id: recipeId || crypto.randomUUID(),
             userId: user.id,
             title,
             cookingTime,
@@ -55,6 +39,7 @@ export const RecipeForm: React.FC<RecipeFormProps> = ({ recipeId, onSubmitSucces
             image,
             ingredients: ingredients.split(",").map((ing) => ing.trim()),
             instructions,
+            dietary: existing?.dietary || null, // Add dietary property
         };
 
         if (recipeId) {
@@ -68,49 +53,35 @@ export const RecipeForm: React.FC<RecipeFormProps> = ({ recipeId, onSubmitSucces
 
     return (
         <form onSubmit={handleSubmit} className="space-y-4 p-6">
-            <Input
-                placeholder="Title"
-                value={formData.title}
-                onChange={handleChange}
-                name="title"
-            />
+            <Input placeholder="Title" value={title} onChange={(e) => setTitle(e.target.value)} />
             <Input
                 placeholder="Cooking Time (e.g., 30 mins)"
-                value={formData.cookingTime}
-                onChange={handleChange}
-                name="cookingTime"
+                value={cookingTime}
+                onChange={(e) => setCookingTime(e.target.value)}
             />
             <Input
                 type="number"
                 placeholder="Rating (1-5)"
-                value={formData.rating}
-                onChange={handleChange}
-                name="rating"
+                value={rating}
+                onChange={(e) => setRating(e.target.value)}
             />
-            <Input
-                placeholder="Image URL"
-                value={formData.image}
-                onChange={handleChange}
-                name="image"
-            />
+            <Input placeholder="Image URL" value={image} onChange={(e) => setImage(e.target.value)} />
 
             {/* Display Image Preview */}
-            {formData.image && (
-                <div className="w-full h-40 mt-2">
-                    <img src={formData.image} alt="Recipe" className="object-cover w-full h-full rounded" />
+            {image && (
+                <div className="w-full h-40 bg-gray-100 mt-2">
+                    <img src={image} alt="Recipe" className="object-cover w-full h-full rounded" />
                 </div>
             )}
             <Input
                 placeholder="Ingredients (comma-separated)"
-                value={formData.ingredients}
-                onChange={handleChange}
-                name="ingredients"
+                value={ingredients}
+                onChange={(e) => setIngredients(e.target.value)}
             />
             <textarea
                 placeholder="Instructions"
-                value={formData.instructions}
-                onChange={handleChange}
-                name="instructions"
+                value={instructions}
+                onChange={(e) => setInstructions(e.target.value)}
                 className="w-full h-40 border rounded p-2"
             />
             <Button type="submit">{recipeId ? "Update Recipe" : "Add Recipe"}</Button>
