@@ -1,43 +1,37 @@
-# Flavor Exchange 🍳
+# 🍳 Flavor Exchange - Recipe Sharing Platform
 
-![Flavor Exchange Banner](./public/FE.png) <!-- Replace with actual banner path -->
+A modern recipe-sharing app built with **React, TypeScript, and shadcn/ui**, featuring dark mode, social sharing, and a cooking timer. Designed for food enthusiasts to discover, save, and manage recipes effortlessly.
 
-A modern recipe-sharing platform built with React, TypeScript, and Tailwind CSS that lets users discover, save, and share culinary creations.
+![App Screenshot](./public/FE.png) 
 
 ## ✨ Features
 
-### Recipe Management
-- 📝 Create, edit, and delete recipes
-- 🖼️ Upload recipe images via URL
-- 📋 Detailed view with ingredients and step-by-step instructions
-
-### User Experience
-- 🔍 Search by title or ingredients
-- 🏷️ Filter by dietary restrictions (vegetarian, gluten-free, etc.)
-- 💖 Save favorites with local storage persistence
-- 🌗 Light/dark mode toggle
-
-### Bonus Features
-- ⏱️ Built-in cooking timer
-- 📱 Fully responsive design
-- 📤 Social media sharing
+- **Recipe Management**  
+  Add, edit, or delete recipes with a user-friendly form.
+- **Favorites System**  
+  Save recipes to your favorites, persisted via local storage.
+- **Search & Filter**  
+  Find recipes by title, ingredients, or dietary restrictions (vegan, gluten-free, etc.).
+- **Social Sharing**  
+  Share recipes on Facebook, Twitter, and Pinterest.
+- **Cooking Timer**  
+  Start a timer directly from recipe instructions.
+- **Dark Mode**  
+  Toggle between light/dark themes for comfortable browsing.
 
 ## 🚀 Tech Stack
 
-| Category           | Technologies                          |
-|--------------------|---------------------------------------|
-| Core               | React 18, TypeScript                  |
-| Routing            | React Router v6                       |
-| State Management   | Zustand                               |
-| Styling            | Tailwind CSS                          |
-| Build Tool         | Vite                                  |
-| Mock API           | JSON Server                           |
-| Icons              | Lucide React                          |
-| Utilities          | clsx, tailwind-merge                  |
+- **Frontend**: React + TypeScript  
+- **Styling**: Tailwind CSS + [shadcn/ui](https://ui.shadcn.com/)  
+- **State Management**: Zustand  
+- **Routing**: React Router  
+- **Mock API**: JSON Server  
+- **Build Tool**: Vite  
+- **Icons**: [Lucide React](https://lucide.dev/)  
+- **Utilities**: `clsx`, `tailwind-merge`  
 
-## 🛠️ Installation
+## 📦 Installation
 
 1. Clone the repository:
    ```bash
    git clone https://github.com/your-username/flavor-exchange.git
-   cd flavor-exchange
