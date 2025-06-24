@@ -1,25 +1,43 @@
-# Flavor Exchange
+# Flavor Exchange 🍳
 
-Flavor Exchange is a recipe-sharing platform designed for food enthusiasts, home cooks, and culinary explorers. It allows users to share, discover, and save recipes while fostering a community of like-minded food lovers.
+![Flavor Exchange Banner](./public/banner.png) <!-- Replace with actual banner path -->
 
-## Features
+A modern recipe-sharing platform built with React, TypeScript, and Tailwind CSS that lets users discover, save, and share culinary creations.
 
-- **Recipe Management**: Add, edit, and delete recipes with ease.
-- **Favorites**: Save your favorite recipes for quick access.
-- **Search and Filter**: Search recipes by title or ingredients and filter by dietary restrictions.
-- **User Authentication**: Sign up, log in, and manage your account.
-- **Social Sharing**: Share recipes on social media platforms like Facebook, Twitter, and Pinterest.
-- **Cooking Timer**: Start a timer for recipes with cooking time.
-- **Dark Mode**: Toggle between light and dark themes for a personalized experience.
+## ✨ Features
 
-## Tech Stack
+### Recipe Management
+- 📝 Create, edit, and delete recipes
+- 🖼️ Upload recipe images via URL
+- 📋 Detailed view with ingredients and step-by-step instructions
 
-- **Frontend**: React, TypeScript, React Router
-- **State Management**: Zustand
-- **Styling**: Tailwind CSS
-- **Build Tool**: Vite
-- **Icons**: Lucide React
-- **Utilities**: clsx, tailwind-merge
+### User Experience
+- 🔍 Search by title or ingredients
+- 🏷️ Filter by dietary restrictions (vegetarian, gluten-free, etc.)
+- 💖 Save favorites with local storage persistence
+- 🌗 Light/dark mode toggle
 
-## Project Structure
-src/ ├── assets/ # Static assets like images ├── components/ # Reusable UI components ├── lib/ # Utility functions and mock data ├── pages/ # Page components for routing ├── store/ # Zustand stores for state management ├── types/ # TypeScript type definitions ├── index.css # Global styles ├── main.tsx # Application entry point └── App.tsx # Main application component
+### Bonus Features
+- ⏱️ Built-in cooking timer
+- 📱 Fully responsive design
+- 📤 Social media sharing
+
+## 🚀 Tech Stack
+
+| Category           | Technologies                          |
+|--------------------|---------------------------------------|
+| Core               | React 18, TypeScript                  |
+| Routing            | React Router v6                       |
+| State Management   | Zustand                               |
+| Styling            | Tailwind CSS                          |
+| Build Tool         | Vite                                  |
+| Mock API           | JSON Server                           |
+| Icons              | Lucide React                          |
+| Utilities          | clsx, tailwind-merge                  |
+
+## 🛠️ Installation
+
+1. Clone the repository:
+   ```bash
+   git clone https://github.com/your-username/flavor-exchange.git
+   cd flavor-exchange
